@@ -19,6 +19,7 @@ router.post('/register', async (req, res) => {
         const collection = db.collection("users");
         // Task 3: Check if user credentials already exists in the database and throw an error if they do
         const existingEmail = await collection.findOne({ email: req.body.email });
+        const email = req.body.email;
 
         if (existingEmail) {
             logger.error('Email id already exists');
@@ -48,7 +49,7 @@ router.post('/register', async (req, res) => {
         // Task 8: Return the user email and the token as a JSON
         res.json({ authtoken, email });
     } catch (e) {
-        return res.status(500).send('Internal server error');
+        return res.status(500).send('Internal server error' + e.message);
     }
 });
 
